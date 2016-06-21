@@ -32,9 +32,13 @@ defmodule Votechain.Core do
 	end
 
 	## Function that return the toal number of votes
-	def handle_call({:total_votes, \\param}, _from, _state) do
-		Logger.info "total votes"
-		{:ok, state} = get_total_votes_py(param)
+	def handle_call({:get_total_votes}, _from, _state) do
+		{:ok, state} = get_total_votes_py()
+		{:reply, state, state}
+	end
+
+	def handle_call({:filter, filter, :param, param}) do
+		{:ok,	state} = get_votes_by(param, filter)
 		{:reply, state, state}
 	end
 
@@ -51,16 +55,26 @@ defmodule Votechain.Core do
 		end)
 	end
 
-	def send_vote(vote) do
+	def send_vote(candidate, gender) do
 		Logger.info "send vote"
+		vote = %{
+			:candidate => candidate,
+			:gender => gender
+		}
 		:poolboy.transaction(:core_action, 
 			fn(pid) -> :gen_server.call(pid, {:vote, vote})
 		end)
 	end
 
-	def get_total_votes(param) do
+	def get_total_votes() do
 		:poolboy.transaction(:core_action, 
-			fn(pid) -> :gen_server.call(pid, {:total_votes, param})
+			fn(pid) -> :gen_server.call(pid, {:get_total_votes})
+		end)
+	end
+
+	def get_total_votes(param, filter) do
+		:poolboy.transaction(:core_action, 
+			fn(pid) -> :gen_server.call(pid, {:filter, filter, :param, param})
 		end)
 	end
 
@@ -82,7 +96,7 @@ defmodule Votechain.Core do
 	defp create_vote(vote) do
 		python_path = "/home/chemonky/votechain/votechain.ex/priv/python_scripts"
 		{:ok, pid} = :python.start_link([{:python_path, to_char_list(python_path)}, {:python, 'python3'}])
-		:python.call(pid, :insert_vote, :insert_vote, [vote])
+		:python.call(pid, :insert_vote, :insert_vote, [vote.candidate, vote.gender])
 		:flush
 		{:ok, vote}
 	end
@@ -95,11 +109,33 @@ defmodule Votechain.Core do
 		{:ok, name}
 	end
 
-	defp get_total_votes_py(param) do
+	defp get_total_votes_py() do
 		python_path = "/home/chemonky/votechain/votechain.ex/priv/python_scripts"
 		{:ok, pid} = :python.start_link([{:python_path, to_char_list(python_path)}, {:python, 'python3'}])
-		total_votes = :python.call(pid, :hello_world, :hello, [name])
+		total_votes = :python.call(pid, :get_votes, :get_total_votes, [])
 		{:ok, total_votes}
+	end
+
+	def get_votes_by(param, filter) do
+		python_path = "/home/chemonky/votechain/votechain.ex/priv/python_scripts"
+		{:ok, pid} = :python.start_link([{:python_path, to_char_list(python_path)}, {:python, 'python3'}])
+
+		case filter do
+			"district" ->
+				total_votes = :python.call(pid, :get_votes, :get_votes_by, [param, filter])
+				{:ok, total_votes}
+			"state" ->
+				state = String.to_integer(param)
+				total_votes = :python.call(pid, :get_votes, :get_votes_by, [param, filter])
+				{:ok, total_votes}
+			"gender" ->
+				total_votes = :python.call(pid, :get_votes, :get_votes_by, [param, filter])
+				{:ok, total_votes}
+			"candidate" ->
+				candidate = String.to_integer(param)
+				total_votes = :python.call(pid, :get_votes, :get_votes_by, [param])
+				{:ok, total_votes}
+		end
 	end
 
 end

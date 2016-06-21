@@ -20,10 +20,12 @@ defmodule Votechain.Router do
   end
 
   # Other scopes may use custom stacks.
-  scope "/api", Votechain do
+  scope "/api/0.1", Votechain do
     pipe_through :api
 
-    post "/vote", VoteController, :new
+    post "/votes", VoteController, :new
     get  "/number", VoteController, :return_number
+    get "/votes", VoteController, :get_total_votes
+    get "/votes/:filter/:param", VoteController, :get_votes
   end
 end
