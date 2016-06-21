@@ -9,9 +9,12 @@ Transaction payload example:
 
 TODO: Refactor everything to avoid duplicated code (about 80% of code is duplicated)
 """
+import json
+
 import rethinkdb as r
 
 from utils import get_bigchain
+
 
 def get_votes_by(value, filter='candidate_id'):
     """Calculates total of votes for given filter
@@ -96,7 +99,7 @@ def get_total_votes(filter='candidate_id'):
         if k and hasattr(k, '__iter__'):
             results[k[0]] = v
 
-    return results
+    return json.dumps(results)
 
 if __name__ == '__main__':
     bigchain = get_bigchain()
