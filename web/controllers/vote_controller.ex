@@ -3,10 +3,18 @@ defmodule Votechain.VoteController do
 	require Logger
 
 	def new(conn, %{"candidate" => candidate, "gender" => gender}) do
-		candidate
-		|> String.to_integer 
-		|> Votechain.Core.send_vote(gender)
-		render(conn, "index.json", message: "hola mundo")
+		case String.valid?(candidate) do
+			true ->
+				candidate
+				|> String.to_integer 
+				|> Votechain.Core.send_vote(gender)
+				render(conn, "index.json", message: "hola mundo")	
+			false ->
+				conn 
+				|> put_status(400)
+				|> render("error.json", message: %{code: "BAD REQUEST", message: "The candidate muts be an string"})
+		end
+		
 	end
 
 	def return_number(conn, _params) do
