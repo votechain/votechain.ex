@@ -86,7 +86,7 @@ defmodule Votechain.Core do
 	end
 
 	defp get_number_py() do
-		python_path = "/Users/gustavo/Documents/votechain/votechain/priv/python"
+		python_path = "/home/amet/votechain.ex/priv/python"
 		{:ok, pid} = :python.start_link([{:python_path, to_char_list(python_path)}, {:python, 'python3'}])
 		result = :python.call(pid, :return_number, :return_number, [])
 		Logger.info "lala #{inspect result}"
@@ -94,7 +94,7 @@ defmodule Votechain.Core do
 	end
 
 	defp create_vote(vote) do
-		python_path = "/home/chemonky/votechain/votechain.ex/priv/python"
+		python_path = "/home/amet/votechain.ex/priv/python"
 		{:ok, pid} = :python.start_link([{:python_path, to_char_list(python_path)}, {:python, 'python3'}])
 		:python.call(pid, :insert_vote, :insert_vote, [vote.candidate, vote.gender])
 		:flush
@@ -103,7 +103,7 @@ defmodule Votechain.Core do
 	end
 
 	defp hello(name) do
-		python_path = "/home/chemonky/votechain/votechain.ex/priv/python"
+		python_path = "/home/amet/votechain.ex/priv/python"
 		{:ok, pid} = :python.start_link([{:python_path, to_char_list(python_path)}, {:python, 'python3'}])
 		:python.call(pid, :hello_world, :hello, [name])
 		:flush
@@ -111,14 +111,14 @@ defmodule Votechain.Core do
 	end
 
 	defp get_total_votes_py() do
-		python_path = "/home/chemonky/votechain/votechain.ex/priv/python"
+		python_path = "/home/amet/votechain.ex/priv/python"
 		{:ok, pid} = :python.start_link([{:python_path, to_char_list(python_path)}, {:python, 'python3'}])
 		total_votes = :python.call(pid, :get_votes, :get_total_votes, [])
 		{:ok, total_votes}
 	end
 
 	def get_votes_by(param, filter) do
-		python_path = "/home/chemonky/votechain/votechain.ex/priv/python"
+		python_path = "/home/amet/votechain.ex/priv/python"
 		{:ok, pid} = :python.start_link([{:python_path, to_char_list(python_path)}, {:python, 'python3'}])
 
 		case filter do
