@@ -6,6 +6,9 @@ def get_votes_for_candidate(bigchain, candidate_id):
     cursor = r.table('bigchain').concat_map(lambda doc: doc["block"]["transactions"].filter(lambda transaction: r.expr([400, 600]).contains(transaction["transaction"]["data"]["payload"]["candidate_id"]))).run(bigchain.conn)
     print(cursor)
 
+def get_total_votes(bigchain):
+    data = r.table('bigchain').concat_map(lambda doc: doc["block"]["transactions"].group(lambda transaction: transaction["transaction"]["data"]["payload"]["candidate_id"]).count()).run(bigchain.conn)
+    print(data)
 
 if __name__ == '__main__':
     connection = get_bigchain()
