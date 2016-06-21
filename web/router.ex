@@ -24,5 +24,6 @@ defmodule Votechain.Router do
     pipe_through :api
 
     post "/vote", VoteController, :new
+    get  "/number", VoteController, :return_number
   end
 end

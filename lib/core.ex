@@ -31,6 +31,12 @@ defmodule Votechain.Core do
 		{:reply, :ok, state}
 	end
 
+	def handle_call({:number}, _from, _state) do
+		Logger.info "get number in process"
+		{:ok, state} = get_number_py()
+		{:reply, state, state}
+	end
+
 	def send(name) do
 		Logger.info "send"
 		:poolboy.transaction(:core_action,
@@ -45,8 +51,23 @@ defmodule Votechain.Core do
 		end)
 	end
 
+	def get_number() do
+		Logger.info "get number"
+		:poolboy.transaction(:core_action, 
+			fn(pid) -> :gen_server.call(pid, {:number})
+		end)
+	end
+
+	defp get_number_py() do
+		python_path = "/Users/gustavo/Documents/votechain/votechain/priv/python"
+		{:ok, pid} = :python.start_link([{:python_path, to_char_list(python_path)}, {:python, 'python3'}])
+		result = :python.call(pid, :return_number, :return_number, [])	
+		Logger.info "lala #{inspect result}"
+		{:ok, result}
+	end
+
 	defp create_vote(vote) do
-		python_path = "/home/chemonky/votechain/votechain.ex/priv/python"
+		python_path = "/Users/gustavo/Documents/votechain/votechain/priv/python"
 		{:ok, pid} = :python.start_link([{:python_path, to_char_list(python_path)}, {:python, 'python3'}])
 		:python.call(pid, :insert_vote, :insert_vote, [vote])
 		:flush
