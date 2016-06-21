@@ -20,7 +20,7 @@ def insert_vote(candidate_id, voter_gender):
         'state_id': os.getenv('VOTECHAIN_NODE_STATE'),
         'voter_gender': voter_gender
     }
-
+    print(keys)
     # Create transaction uses the operation `CREATE` and has no inputs
     transaction = connection.create_transaction(connection.me, keys.public_key, None, 'CREATE', payload=payload)
     # All transactions need to be signed by the user creating the transaction
