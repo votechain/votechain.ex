@@ -25,10 +25,10 @@ defmodule Votechain.Core do
 		{:reply, :ok, state}
 	end
 
-	def handle_call({:vote, vote}, _from, _state) do
+	def handle_cast(:message, vote) do
 		Logger.info "make a vote"
 		{:ok, state} = create_vote(vote)
-		{:reply, :ok, state}
+		{:noreply, state}
 	end
 
 	## Function that return the toal number of votes
@@ -62,7 +62,7 @@ defmodule Votechain.Core do
 			:gender => gender
 		}
 		:poolboy.transaction(:core_action,
-			fn(pid) -> :gen_server.cast(pid, {:vote, vote})
+			fn(pid) -> :gen_server.cast(:vote, vote)
 		end)
 	end
 
