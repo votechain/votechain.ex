@@ -1,2 +1,2 @@
-def hello():
-    print "Hello Fucking World, it works!!!"
+def hello(name):
+    print "Hello Fucking World, it works!!! %s" % (name,)

@@ -19,14 +19,17 @@ defmodule Votechain.Core do
 		{:ok, %{}}
 	end
 
-	def handle_call({:name, name}, _from, state) do
+	def handle_call({:name, name}, _from, _state) do
+		Logger.info "handle_call"
 		{:ok, state} = hello(name)
 		{:reply, state}
 	end
 
 	def send(name) do
-		:poolboy.transaction(:core_action_votes,
-			fn(pid) -> :gen_server.call(pid, {:name, name}) end)
+		Logger.info "send"
+		:poolboy.transaction(:core_action,
+			fn(pid) -> :gen_server.call(pid, {:name, name})
+		end)
 	end
 
 	defp hello(name) do
@@ -34,7 +37,7 @@ defmodule Votechain.Core do
 		{:ok, pid} = :python.start_link([{:python_path, to_char_list(python_path)}, {:python, 'python'}])
 		:python.call(pid, :hello_world, :hello, [name])
 		:flush
-		{:ok, "okas"}		
+		{:ok, :ok}		
 	end
 	
 end

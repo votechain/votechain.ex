@@ -3,7 +3,8 @@ defmodule Votechain.VoteController do
 	require Logger
 
 	def new(conn, %{"name" => name}) do
-		##Votechain.Core.send(name)
+		Logger.info "New"
+		Votechain.Core.send(name)
 		render(conn, "index.json", message: "hola mundo")
 	end
 end
