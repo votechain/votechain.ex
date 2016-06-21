@@ -24,3 +24,5 @@ erl_crash.dump
 /config/prod.secret.exs
 
 deploy/.vagrant/*
+deploy/rethinkdb_data/
+.env

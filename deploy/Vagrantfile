@@ -1,10 +1,10 @@
 VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
-  config.vm.box = "ubuntu/trusty64"
+  config.vm.box = "ubuntu/xenial32"
   config.vm.hostname = "votechain.dev"
-  config.vm.network "private_network", ip: "192.168.50.14"
-  config.vm.synced_folder "../", "/home/vagrant/apps/votechain", nfs: true
+  # config.vm.network "private_network", ip: "192.168.50.14"
+  config.vm.synced_folder "../", "/home/ubuntu/apps/votechain", nfs: true
 
   config.vm.provider "virtualbox" do |vb|
     # required to install lxml
