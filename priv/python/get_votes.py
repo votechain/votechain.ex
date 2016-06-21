@@ -3,7 +3,12 @@ import rethinkdb as r
 from utils import get_bigchain
 
 def get_votes_for_candidate(bigchain, candidate_id):
-    """Calculates total of votes for given candidate"""
+    """Calculates total of votes for given candidate
+    Returns:
+        int: number of votes for the given candidate i.e.,
+
+        6
+    """
     return r.table('bigchain').concat_map(
         lambda doc: doc["block"]["transactions"].filter(
             lambda transaction: transaction["transaction"]["data"]["payload"]["candidate_id"] == candidate_id
@@ -13,7 +18,12 @@ def get_votes_for_candidate(bigchain, candidate_id):
 
 
 def get_total_votes(bigchain):
-    """Calculates total of votes per candidate"""
+    """Calculates total of votes per candidate
+    Returns:
+        dict: containing all candidates and votes for each one i.e,
+
+        {600: 6, 400: 2}
+    """
     data = r.table('bigchain').group(lambda doc: doc["block"]["transactions"]["transaction"]["data"]["payload"]["candidate_id"]).count().run(bigchain.conn)
 
     # Let's clean this ...
