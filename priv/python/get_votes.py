@@ -99,7 +99,7 @@ def get_total_votes(filter='candidate_id'):
         if k and hasattr(k, '__iter__'):
             results[k[0]] = v
 
-    return json.dumps(results)
+    return bytes(json.dumps(results))
 
 if __name__ == '__main__':
     bigchain = get_bigchain()
