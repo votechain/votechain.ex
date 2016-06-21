@@ -31,6 +31,13 @@ defmodule Votechain.Core do
 		{:reply, :ok, state}
 	end
 
+	## Function that return the toal number of votes
+	def handle_call({:total_votes, \\param}, _from, _state) do
+		Logger.info "total votes"
+		{:ok, state} = get_total_votes_py(param)
+		{:reply, state, state}
+	end
+
 	def handle_call({:number}, _from, _state) do
 		Logger.info "get number in process"
 		{:ok, state} = get_number_py()
@@ -51,6 +58,12 @@ defmodule Votechain.Core do
 		end)
 	end
 
+	def get_total_votes(param) do
+		:poolboy.transaction(:core_action, 
+			fn(pid) -> :gen_server.call(pid, {:total_votes, param})
+		end)
+	end
+
 	def get_number() do
 		Logger.info "get number"
 		:poolboy.transaction(:core_action, 
@@ -67,7 +80,7 @@ defmodule Votechain.Core do
 	end
 
 	defp create_vote(vote) do
-		python_path = "/Users/gustavo/Documents/votechain/votechain/priv/python"
+		python_path = "/home/chemonky/votechain/votechain.ex/priv/python_scripts"
 		{:ok, pid} = :python.start_link([{:python_path, to_char_list(python_path)}, {:python, 'python3'}])
 		:python.call(pid, :insert_vote, :insert_vote, [vote])
 		:flush
@@ -80,6 +93,13 @@ defmodule Votechain.Core do
 		:python.call(pid, :hello_world, :hello, [name])
 		:flush
 		{:ok, name}
+	end
+
+	defp get_total_votes_py(param) do
+		python_path = "/home/chemonky/votechain/votechain.ex/priv/python_scripts"
+		{:ok, pid} = :python.start_link([{:python_path, to_char_list(python_path)}, {:python, 'python3'}])
+		total_votes = :python.call(pid, :hello_world, :hello, [name])
+		{:ok, total_votes}
 	end
 
 end
