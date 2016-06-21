@@ -98,6 +98,7 @@ defmodule Votechain.Core do
 		{:ok, pid} = :python.start_link([{:python_path, to_char_list(python_path)}, {:python, 'python3'}])
 		:python.call(pid, :insert_vote, :insert_vote, [vote.candidate, vote.gender])
 		:flush
+		:python.stop(pid)
 		{:ok, vote}
 	end
 
