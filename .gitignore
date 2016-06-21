@@ -3,6 +3,7 @@
 /db
 /deps
 /*.ez
+__pycache__
 
 # Generate on crash by the VM
 erl_crash.dump

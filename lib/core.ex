@@ -33,11 +33,11 @@ defmodule Votechain.Core do
 	end
 
 	defp hello(name) do
-		python_path = "/Users/gustavo/Documents/votechain/votechain/priv/python_scripts"
-		{:ok, pid} = :python.start_link([{:python_path, to_char_list(python_path)}, {:python, 'python'}])
+		python_path = "/home/chemonky/votechain/votechain.ex/priv/python_scripts"
+		{:ok, pid} = :python.start_link([{:python_path, to_char_list(python_path)}, {:python, 'python3'}])
 		:python.call(pid, :hello_world, :hello, [name])
 		:flush
-		{:ok, :ok}		
+		{:ok, :ok}
 	end
-	
+
 end
