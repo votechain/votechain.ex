@@ -38,7 +38,8 @@ defmodule Votechain.Mixfile do
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:poolboy, "~> 1.5.1"},
-     {:erlport, git: "https://github.com/hdima/erlport.git"}]
+     {:erlport, git: "https://github.com/hdima/erlport.git"},
+     {:json, "~> 0.3.3"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
