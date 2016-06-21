@@ -22,7 +22,7 @@ defmodule Votechain.Core do
 	def handle_call({:name, name}, _from, _state) do
 		Logger.info "handle_call"
 		{:ok, state} = hello(name)
-		{:reply, state}
+		{:reply, :ok, state}
 	end
 
 	def send(name) do
@@ -37,7 +37,7 @@ defmodule Votechain.Core do
 		{:ok, pid} = :python.start_link([{:python_path, to_char_list(python_path)}, {:python, 'python'}])
 		:python.call(pid, :hello_world, :hello, [name])
 		:flush
-		{:ok, :ok}		
+		{:ok, name}
 	end
 	
 end
