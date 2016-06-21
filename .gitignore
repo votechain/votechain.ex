@@ -26,3 +26,4 @@ erl_crash.dump
 deploy/.vagrant/*
 deploy/rethinkdb_data/
 .env
+__pycache__

@@ -1,4 +1,4 @@
-from .utils import get_bigchain, get_node_keys
+from utils import get_bigchain, get_node_keys
 import time
 
 
@@ -35,4 +35,4 @@ def insert_vote(candidate_id=400):
 
 
 if __name__ == '__main__':
-    insert_vote(400)
+    insert_vote(600)

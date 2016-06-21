@@ -1,9 +1,9 @@
 import rethinkdb as r
 
-from .utils import get_bigchain
+from utils import get_bigchain
 
 def get_votes_for_candidate(bigchain, candidate_id):
-    cursor = r.table('bigchain').concat_map(lambda doc: doc["block"]["transactions"].filter(lambda transaction: transaction["transaction"]["data"]["payload"]["candidate_id"].match(400))).run(bigchain.conn)
+    cursor = r.table('bigchain').concat_map(lambda doc: doc["block"]["transactions"].filter(lambda transaction: r.expr([400, 600]).contains(transaction["transaction"]["data"]["payload"]["candidate_id"]))).run(bigchain.conn)
     print(cursor)
 
 
