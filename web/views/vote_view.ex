@@ -5,7 +5,7 @@ defmodule Votechain.VoteView do
 		%{message: message}
 	end
 
-	def render("show.json", %{number: number}) do
-		%{data: number}
+	def render("show.json", %{votes: votes}) do
+		%{data: votes}
 	end
 end

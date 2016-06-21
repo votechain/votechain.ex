@@ -15,12 +15,12 @@ defmodule Votechain.VoteController do
 	end
 
 	def get_total_votes(conn, _params) do
-		votes = Votechain.get_total_votes()
+		votes = Votechain.Core.get_total_votes()
 		render(conn, "show.json", votes: votes)
 	end
 
 	def get_votes(conn, %{"param" => param, "filter" => filter}) do
-		votes = Votechain.get_total_votes(param, filter)
+		votes = Votechain.Core.get_total_votes(param, filter)
 		render(conn, "show.json", votes: votes)
 	end
 
