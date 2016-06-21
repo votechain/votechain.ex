@@ -1,11 +1,12 @@
 from utils import get_bigchain, get_node_keys
-import time
+import os
 
 
-def insert_vote(candidate_id=400):
+def insert_vote(candidate_id, voter_gender):
     """Insert a vote into the Chain with Bigchain DB
     Args:
         candidate_id (int)
+        voter_gender (str): F or M
     Returns:
         None
     Raises:
@@ -15,7 +16,9 @@ def insert_vote(candidate_id=400):
     keys = get_node_keys()
     payload = {
         'candidate_id': candidate_id,
-        'region_id': 0
+        'region_id': os.getenv('VOTECHAIN_NODE_REGION'),
+        'state_id': os.getenv('VOTECHAIN_NODE_STATE'),
+        'voter_gender': voter_gender
     }
 
     # Create transaction uses the operation `CREATE` and has no inputs
