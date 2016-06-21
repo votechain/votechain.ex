@@ -37,8 +37,8 @@ defmodule Votechain.Mixfile do
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
-     {:erlport, git: "https://github.com/hdima/erlport.git"},
-     {:poolboy, "~> 1.5.1"}]
+     {:poolboy, "~> 1.5.1"},
+     {:erlport, git: "https://github.com/hdima/erlport.git"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.

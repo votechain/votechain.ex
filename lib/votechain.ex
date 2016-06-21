@@ -6,6 +6,13 @@ defmodule Votechain do
   def start(_type, _args) do
     import Supervisor.Spec, warn: false
 
+    poolboy_config_item_action = [
+      {:name, {:local, :core_action}},
+      {:worker_module, Votechain.Core},
+      {:size, 15},
+      {:max_overflow, 1}
+    ]
+
     children = [
       # Start the endpoint when the application starts
       supervisor(Votechain.Endpoint, []),
@@ -13,6 +20,9 @@ defmodule Votechain do
       supervisor(Votechain.Repo, []),
       # Here you could define other workers and supervisors as children
       # worker(Votechain.Worker, [arg1, arg2, arg3]),
+
+      #Poolboy definition
+      :poolboy.child_spec(:core_action, poolboy_config_item_action, []),
     ]
 
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
