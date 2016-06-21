@@ -9,7 +9,7 @@ defmodule Votechain do
     poolboy_config_item_action = [
       {:name, {:local, :core_action}},
       {:worker_module, Votechain.Core},
-      {:size, 10},
+      {:size, 5},
       {:max_overflow, 1}
     ]
 
