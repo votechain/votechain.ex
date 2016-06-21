@@ -62,7 +62,7 @@ defmodule Votechain.Core do
 			:gender => gender
 		}
 		:poolboy.transaction(:core_action,
-			fn(pid) -> :gen_server.call(pid, {:vote, vote})
+			fn(pid) -> :gen_server.cast(pid, {:vote, vote})
 		end)
 	end
 
