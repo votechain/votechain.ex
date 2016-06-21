@@ -1,0 +1,3 @@
+BigchainDB==0.4.2
+pytz==2015.7
+rethinkdb==2.3.0
