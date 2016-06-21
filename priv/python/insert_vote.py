@@ -37,4 +37,4 @@ def insert_vote(candidate_id, voter_gender):
 
 
 if __name__ == '__main__':
-    insert_vote(500)
+    insert_vote(304, 'F')
