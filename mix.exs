@@ -19,7 +19,7 @@ defmodule Votechain.Mixfile do
   def application do
     [mod: {Votechain, []},
      applications: [:phoenix, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :poolboy]]
+                    :phoenix_ecto, :postgrex, :poolboy, :tzdata]]
   end
 
   # Specifies which paths to compile per environment.
@@ -38,7 +38,8 @@ defmodule Votechain.Mixfile do
      {:gettext, "~> 0.9"},
      {:cowboy, "~> 1.0"},
      {:poolboy, "~> 1.5.1"},
-     {:erlport, git: "https://github.com/hdima/erlport.git"}]
+     {:erlport, git: "https://github.com/hdima/erlport.git"},
+     {:timex, ">= 0.0.0"}]
   end
 
   # Aliases are shortcut or tasks specific to the current project.
