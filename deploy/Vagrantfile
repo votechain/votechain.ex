@@ -1,0 +1,23 @@
+VAGRANTFILE_API_VERSION = "2"
+
+Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
+  config.vm.box = "ubuntu/xenial32"
+  config.vm.hostname = "votechain.dev"
+  # config.vm.network "private_network", ip: "192.168.50.14"
+  config.vm.synced_folder "../", "/home/ubuntu/apps/votechain", nfs: true
+
+  config.vm.provider "virtualbox" do |vb|
+    # required to install lxml
+    vb.memory = 1024
+  end
+
+  # do not include the CREATE_USER tag, it can break ssh login
+  # config.vm.provision :ansible do |ansible|
+  #   ansible.playbook = "playbooks/deploy.yml"
+  #   ansible.inventory_path = "inventories/development"
+  #   ansible.limit = "all"
+  #   ansible.tags = "database,backend,message"
+  #   ansible.ask_vault_pass = true
+  # end
+
+end
