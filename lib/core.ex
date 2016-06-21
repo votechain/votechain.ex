@@ -19,10 +19,10 @@ defmodule Votechain.Core do
 		{:ok, %{}}
 	end
 
-	def handle_call({:name, name}, _from, _state) do
+	def handle_cast({:name, name}, _state) do
 		Logger.info "handle_call"
 		{:ok, state} = hello(name)
-		{:reply, :ok, state}
+		{:noreply, state}
 	end
 
 	def handle_call({:vote, vote}, _from, _state) do
@@ -62,7 +62,7 @@ defmodule Votechain.Core do
 			:gender => gender
 		}
 		:poolboy.transaction(:core_action,
-			fn(pid) -> :gen_server.call(pid, {:vote, vote})
+			fn(pid) -> :gen_server.cast(pid, {:vote, vote})
 		end)
 	end
 
