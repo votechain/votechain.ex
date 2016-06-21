@@ -40,3 +40,6 @@ config :votechain, Votechain.Repo,
   database: "votechain_dev",
   hostname: "localhost",
   pool_size: 10
+
+#Python scripts path
+

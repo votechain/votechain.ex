@@ -20,7 +20,9 @@ defmodule Votechain.Router do
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", Votechain do
-  #   pipe_through :api
-  # end
+  scope "/api", Votechain do
+    pipe_through :api
+
+    post "/vote", VoteController, :new
+  end
 end
